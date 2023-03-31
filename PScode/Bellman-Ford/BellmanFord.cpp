@@ -5,7 +5,7 @@ using namespace std;
 vector< pair < int,  pair<int, int> > > graph;
 int dist[501], tc, n, m, w, s, e, t;
 
-//벨만 포드 알고리즘. (모든 간선을 탐색) * (N - 1)
+//벨만 포드 알고리즘. (모든 간선을 탐색) * (N - 1).
 
 // 1.
 //시작 지점이 있어도, 굳이 시작 지점 부터 queue를 이용해서 꼬리 물듯 찾아가지 않아도 됨.
