@@ -1,2 +1,2 @@
 # My Algorithm List
-# Test Git# My_Algorithm
+# Test Git
