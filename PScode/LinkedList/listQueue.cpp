@@ -1,7 +1,7 @@
 #include <iostream>
 using namespace std;
 
-// 리스트를 이용한 queue
+// 리스트를 이용한 queue 선언
 class queue{
 public:
     class Node{

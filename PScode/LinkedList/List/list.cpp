@@ -3,7 +3,7 @@ using namespace std;
 
 #include "list.h"
 
-//클래스 내부 기능.
+//클래스 내부 기능..
 
 Node::Node(){
     next = NULL;

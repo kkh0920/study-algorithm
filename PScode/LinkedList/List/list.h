@@ -1,7 +1,7 @@
 #ifndef LIST_H
 #define LIST_H
 
-// 클래스 기능 종류
+// 클래스 기능 종류.
 class Node{
 public:
     int data;

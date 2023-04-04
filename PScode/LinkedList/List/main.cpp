@@ -4,7 +4,7 @@ using namespace std;
 #include "list.h"
 
 int main(){
-    // 실제 사용 예시
+    // 실제 사용 예시.
     LinkedList* myList = new LinkedList();
     
     myList->addNode(10);
