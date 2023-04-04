@@ -7,7 +7,7 @@ struct Node{
     Node* right;
 };
 
-//완전 이진 트리(왼쪽부터 노드가 순서대로 채워짐)
+//완전 이진 트리(왼쪽부터 노드가 순서대로 채워짐).
 class BinaryTree{
     Node* root = NULL;
     Node* createNode(int d);
