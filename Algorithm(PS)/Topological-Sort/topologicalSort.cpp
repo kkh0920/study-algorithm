@@ -1,6 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+//BOJ 2623
 vector<int> graph[1001], result;
 int N, M, n, s, e, cnt[1001] = { 0 }, node;
 bool visited[1001] = { false };
