@@ -3,9 +3,8 @@ using namespace std;
 
 // BOJ 17135
 
-// visited[archer[idx].first][archer[idx].second] = true;
-// 궁수가 있는 위치는 배열을 초과하는 곳.
-// 따라서 해당 코드는 ouOfBound를 유발.
+// senseEnemy -> visited[archer[idx].first][archer[idx].second] = true;
+// 궁수가 있는 위치는 배열을 벗어나는 곳이므로, 해당 코드는 ouOfBound를 유발.
 // 백준 시스템 상에서는 왜 '틀렸습니다'가 나오는지는 모르겠지만, 해당 코드를 지워줌으로써 AC를 받을 수 있었음.
 
 vector< pair<int, int> > archer;
@@ -63,6 +62,7 @@ void senseEnemy(int idx){
     initVisited();
     queue< pair<int, int> > q;
     q.push(archer[idx]);
+    // visited[archer[idx].first][archer[idx].second] = true;
 
     int dist = 0;
     bool isEnd = false;
