@@ -1,3 +1,3 @@
 ## study
 
-Algorithm / Data Structure / Problem Solving Code
+Algorithm / Data Structure / BOJ
