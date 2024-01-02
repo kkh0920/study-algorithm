@@ -1,52 +1,61 @@
 #include <iostream>
-#include <string.h>
-#include <queue>
-#include <vector>
 using namespace std;
 
-int N, M, result[101] = { 0 };
-bool check[101];
-queue< pair <int, int> > q;
-vector<int> relation[101];
+int N, M, arr[101][101];
 
-void bfs(int s){
-    int cnt = 1;
-    memset(check, false, sizeof(bool) * 101);
-    q.push(make_pair(s, cnt));
-    while(q.size() != 0){
-        for(int i = 0; i < relation[q.front().first].size(); i++){
-            if(!check[relation[q.front().first][i]]){
-                q.push(make_pair(relation[q.front().first][i], cnt + 1));
-                check[relation[q.front().first][i]] = true;
-                result[s] += cnt;
-            }
+void init(int n){
+    for(int i = 1; i <= n; i++) {
+        for(int j = 1; j <= n; j++) {
+            if(i == j)
+                arr[i][j] = 0;
+            else
+                arr[i][j] = 123456789;
         }
-        q.pop();
-        cnt = q.front().second;
     }
 }
 
-int main(){
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-
-    int a, b, min = 200, minI;
-    
-    cin >> N >> M;
-
-    for(int i = 0; i < M; i++){
-        cin >> a >> b;
-        relation[a].push_back(b);
-        relation[b].push_back(a);
+void input() {
+    int s, e;
+    for(int i = 0; i < M; i++) {
+        cin >> s >> e;
+        arr[s][e] = 1;
+        arr[e][s] = 1;
     }
+}
 
-    for(int i = 1; i <= N; i++){
-        bfs(i);
-        if(min > result[i]){
-            min = result[i];
-            minI = i;
+void solve() {
+    for(int i = 1; i <= N; i++) {
+        for(int j = 1; j <= N; j++) {
+            for(int k = 1; k <= N; k++) {
+                arr[j][k] = min(arr[j][k], arr[j][i] + arr[i][k]);
+            }
         }
     }
 
-    cout << minI << '\n';
+    int result = 0, minCnt = 123456789;
+
+    for(int i = 1; i <= N; i++) {
+        int sum = 0;
+        for(int j = 1; j <= N; j++) {
+            sum += arr[i][j];
+        }
+        if(sum < minCnt) {
+            result = i;
+            minCnt = sum;
+        }
+    }
+
+    cout << result << '\n';
+}
+
+int main(){
+    cin >> N >> M;
+    
+    init(N);
+
+    input();
+    
+    solve();
+
+    return 0;
 }
