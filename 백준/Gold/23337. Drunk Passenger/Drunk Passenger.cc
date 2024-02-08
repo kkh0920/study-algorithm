@@ -6,22 +6,19 @@ int main(){
     cin.tie(NULL);
 
     int n;
-    double result = 0;
+    double result;
 
     cin >> n;
 
-    if(n >= 2) {
-        result += 1.0;
-    }
-
-    for(int i = 0; i < n - 2; i++) {
-        result += 0.5;
-    }
+    if(n == 1)
+        result = 0;
+    else
+        result = (1.0 + 0.5 * (n - 2)) / (n - 1);
 
     cout << fixed;
     cout.precision(10);
 
-    cout << result / (n - 1) << '\n';
+    cout << result << '\n';
 
     return 0;
 }
