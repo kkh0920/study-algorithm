@@ -3,14 +3,13 @@
 #include <queue>
 using namespace std;
 
+queue<int> q;
 vector< pair<int, int> > graph[10001], rGraph[10001];
-int n, m, s, e, indegree[10001], maxTime[10001], road = 0;
+int n, m, s, e, indegree[10001], maxTime[10001];
 bool visited[10001];
 
-void solution() {
-    queue<int> q;
+void findMaxTime() {
     q.push(s);
-
     while(!q.empty()) {
         int curNode = q.front();
         q.pop();
@@ -29,10 +28,12 @@ void solution() {
             }
         }
     }
+}
 
+int getRoadCnt() {
+    int road = 0;
     visited[e] = true;
     q.push(e);
-    
     while(!q.empty()) {
         int cur = q.front();
         q.pop();
@@ -50,10 +51,10 @@ void solution() {
             }
         }
     }
+    return road;
 }
 
 int main() {
-
     cin >> n >> m;
 
     int a, b, t;
@@ -65,9 +66,10 @@ int main() {
     }
     cin >> s >> e;
 
-    solution();
+    findMaxTime();
+    int roadCnt = getRoadCnt();
 
-    cout << maxTime[e] << '\n' << road << '\n';
+    cout << maxTime[e] << '\n' << roadCnt << '\n';
 
     return 0;
 }
