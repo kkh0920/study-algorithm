@@ -11,35 +11,33 @@ void solution(int scv1, int scv2, int scv3) {
     queue< pair<int, pair<int, int> > > q;
     q.push(make_pair(arr[0], make_pair(arr[1], arr[2])));
     checked[arr[0]][arr[1]][arr[2]] = true;
+    
     while(!q.empty()) {
         int size = q.size();
+        result++;
         while(size--) {
             int s1 = q.front().first;
             int s2 = q.front().second.first;
             int s3 = q.front().second.second;
             q.pop();
-
-            if(s1 <= 0 && s2 <= 0 && s3 <= 0) {
-                return;
-            }
             
             for(int i = 0; i < 6; i++) {
                 int o = order[i];
                 int ns1 = s1 - attack[o / 9]; o %= 9;
                 int ns2 = s2 - attack[o / 3]; o %= 3;
                 int ns3 = s3 - attack[o];
-                
                 if(ns1 < 0) ns1 = 0;
                 if(ns2 < 0) ns2 = 0;
                 if(ns3 < 0) ns3 = 0;
-
+                
+                if(ns1 == 0 && ns2 == 0 && ns3 == 0) return;
+                
                 if(!checked[ns1][ns2][ns3]) {
                     checked[ns1][ns2][ns3] = true;
                     q.push(make_pair(ns1, make_pair(ns2, ns3)));
                 }
             }
-        }
-        result++;
+        } 
     }
 }
 
