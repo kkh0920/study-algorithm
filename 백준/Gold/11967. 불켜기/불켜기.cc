@@ -24,19 +24,27 @@ void bfs() {
     queue< pair<int, int> > q;
     q.push(make_pair(1, 1));
     while(!q.empty()) {
-        int curI = q.front().first;
-        int curJ = q.front().second;
-        q.pop();
-        for(int i = 0; i < 4; i++) {
-            int nI = curI + dx[i];
-            int nJ = curJ + dy[i];
-            if(nI <= 0 || nI > n || nJ <= 0 || nJ > n)
-                continue;
-            if(light[nI][nJ] == false || visited[nI][nJ] >= numLight)
-                continue;
-            turnOnLights(nI, nJ);
-            visited[nI][nJ] = numLight;
-            q.push(make_pair(nI, nJ));
+        vector< pair<int, int> > v;
+        int size = q.size();
+        while(size--) {
+            int curI = q.front().first;
+            int curJ = q.front().second;
+            q.pop();
+            for(int i = 0; i < 4; i++) {
+                int nI = curI + dx[i];
+                int nJ = curJ + dy[i];
+                if(nI <= 0 || nI > n || nJ <= 0 || nJ > n)
+                    continue;
+                if(light[nI][nJ] == false || visited[nI][nJ] >= numLight)
+                    continue;
+                turnOnLights(nI, nJ);
+                visited[nI][nJ] = 99999;
+                v.push_back(make_pair(nI, nJ));   
+                q.push(make_pair(nI, nJ));
+            }
+        }
+        for(auto x : v) {
+            visited[x.first][x.second] = numLight;
         }
     }
 }
