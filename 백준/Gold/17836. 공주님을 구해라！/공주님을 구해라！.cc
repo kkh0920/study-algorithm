@@ -29,10 +29,8 @@ int bfs() {
                 int nJ = curJ + dy[i];
                 if(nI < 0 || nI >= n || nJ < 0 || nJ >= m)
                     continue;
-                if(!sword && map[nI][nJ] == 1)
-                    continue;
                 nSword = map[nI][nJ] == 2 ? true : sword;
-                if(visited[nSword][nI][nJ])
+                if(!sword && map[nI][nJ] == 1 || visited[nSword][nI][nJ])
                     continue;
                 visited[nSword][nI][nJ] = true;
                 q.push(make_pair(nSword, make_pair(nI, nJ)));
