@@ -8,7 +8,7 @@ struct State {
     int curI, curJ;
 };
 
-int n, m, k, visited[2][11][1000][1000];
+int n, m, k, visited[2][1000][1000];
 char map[1000][1001];
 
 int dx[5] = { 0, -1, 1, 0, 0 };
@@ -18,7 +18,7 @@ int bfs() {
     if(n == 1 && m == 1) return 1;
     queue<State> q;
     q.push({true, 0, 0, 0});
-    visited[1][0][0][0] = 1;
+    visited[1][0][0] = 0;
     int dist = 1;
     while(!q.empty()) {
         int size = q.size();
@@ -38,15 +38,14 @@ int bfs() {
                     continue;
                 if(nI == n - 1 && nJ == m - 1)
                     return dist + 1;
-                
+      
                 if(i != 0 && map[nI][nJ] == '1') {
                     if(canBreak && breakCnt < k) nBreakCnt++;
                     else continue;
                 }
                 
-                int origin = visited[!canBreak][nBreakCnt][nI][nJ];
-                if(origin == 0 || dist + 1 < origin) {
-                    visited[!canBreak][nBreakCnt][nI][nJ] = dist + 1;
+                if(nBreakCnt < visited[!canBreak][nI][nJ]) {
+                    visited[!canBreak][nI][nJ] = nBreakCnt;
                     q.push({!canBreak, nBreakCnt, nI, nJ});
                 }
             }
@@ -65,6 +64,8 @@ int main() {
     for(int i = 0; i < n; i++) {
         for(int j = 0; j < m; j++) {
             cin >> map[i][j];
+            visited[0][i][j] = 99999;
+            visited[1][i][j] = 99999;
         }
     }
 
