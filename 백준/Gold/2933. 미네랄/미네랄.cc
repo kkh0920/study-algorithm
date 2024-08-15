@@ -18,9 +18,9 @@ void initVisited() {
     }
 }
 
-bool canDrop(vector< pair<int, int> > cluster) {
+bool canDrop(vector< pair<int, int> > cluster, int dropHeight) {
     for(auto c : cluster) {
-        int x = c.first - 1, y = c.second;
+        int x = c.first - dropHeight, y = c.second;
         if(x < 1 || map[x][y] == 'x') {
             return false;
         }
@@ -28,22 +28,19 @@ bool canDrop(vector< pair<int, int> > cluster) {
     return true;
 }
 
-void oneLineDrop(vector< pair<int, int> >& cluster) {
-    vector< pair<int, int> >::iterator iter;
-    for(iter = cluster.begin(); iter != cluster.end(); iter++) {
-        (*iter).first -= 1;
-    }
-}
-
 void drop(vector< pair<int, int> > cluster) {
+    for(auto c : cluster) {
+        map[c.first][c.second] = '.';
+    }
+    int dropHeight = 0;
     while(1) {
-        if(!canDrop(cluster)) {
+        if(!canDrop(cluster, dropHeight + 1)) {
             for(auto c : cluster) {
-                map[c.first][c.second] = 'x';
+                map[c.first - dropHeight][c.second] = 'x';
             }
             return;
         }
-        oneLineDrop(cluster);
+        dropHeight++;
     }
 }
 
@@ -76,10 +73,6 @@ bool isdropped(int si, int sj) {
         }
     }
     if(!canDrop) return false;
-
-    for(auto c : cluster) {
-        map[c.first][c.second] = '.';
-    }
     
     drop(cluster);
 
@@ -87,10 +80,12 @@ bool isdropped(int si, int sj) {
 }
 
 void throwSpear(int height, int time) {
+    int sx = height, sy = 0;
     if(time % 2 == 0) { // left
         for(int i = 1; i <= c; i++) {
             if(map[height][i] == 'x') {
                 map[height][i] = '.';
+                sy = i;
                 break;
             }
         }
@@ -98,17 +93,19 @@ void throwSpear(int height, int time) {
         for(int i = c; i >= 1; i--) {
             if(map[height][i] == 'x') {
                 map[height][i] = '.';
+                sy = i;
                 break;
             }
         }
     }
+    if(sy == 0) return;
 
-    for(int i = r; i >= 1; i--) {
-        for(int j = 1; j <= c; j++) {
-            if(!visited[i][j] && map[i][j] == 'x' && isdropped(i, j)) {
-                return;
-            }
-        }
+    for(int i = 0; i < 4; i++) {
+        int x = sx + dx[i], y = sy + dy[i];
+        if(x < 1 || x > r || y < 1 || y > c) continue;
+        if(visited[x][y] || map[x][y] == '.') continue;
+        if(isdropped(x, y)) 
+            return;
     }
 }
 
