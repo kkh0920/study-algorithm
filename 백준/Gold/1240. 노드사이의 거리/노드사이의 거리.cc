@@ -5,24 +5,25 @@
 
 using namespace std;
 
-int n, m, dist[1001][1001];
+int n, m;
 bool visited[1001];
-vector<int> tree[1001];
+vector< pair<int, int> > tree[1001];
 
 int dfs(int start, int end) {
-    if(start == end)
-        return dist[start][end];
+    if(start == end) return 0;
 
-    int d = INF;
+    int dist = INF;
     for(auto next : tree[start]) {
-        if(!visited[next]) {
-            visited[next] = true;
-            d = min(d, dist[start][next] + dfs(next, end));
-            visited[next] = false;
+        int nextNode = next.first;
+        int nextDist = next.second;
+        if(!visited[nextNode]) {
+            visited[nextNode] = true;
+            dist = min(dist, nextDist + dfs(nextNode, end));
+            visited[nextNode] = false;
         }
     }
     
-    return d;
+    return dist;
 }
 
 int main() {
@@ -31,22 +32,11 @@ int main() {
 
     cin >> n >> m;
 
-    for(int i = 1; i <= n; i++) {
-        for(int j = 1; j <= n; j++) {
-            if(i == j) dist[i][j] = 0;
-            else dist[i][j] = INF;
-        }   
-    }
-
     int n1, n2, d;
     for(int i = 0; i < n - 1; i++) {
         cin >> n1 >> n2 >> d;
-        
-        dist[n1][n2] = d;
-        dist[n2][n1] = d;
-
-        tree[n1].push_back(n2);
-        tree[n2].push_back(n1);
+        tree[n1].push_back(make_pair(n2, d));
+        tree[n2].push_back(make_pair(n1, d));
     }
 
     for(int i = 0; i < m; i++) {
