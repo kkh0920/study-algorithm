@@ -2,15 +2,15 @@
 using namespace std;
 
 int N, M, H;
-bool ladder[31][11][11], origin[31][11][11];
+bool ladder[31][11], origin[31][11];
 
 bool simulation() {
     for(int i = 1; i <= N; i++) {
         int x = i, height = 1;
         while(height <= H) {
-            if(x > 1 && ladder[height][x - 1][x]) {
+            if(x > 1 && ladder[height][x - 1]) {
                 x--;
-            } else if(x < N && ladder[height][x][x + 1]) {
+            } else if(x < N && ladder[height][x]) {
                 x++;
             }
             height++;
@@ -27,12 +27,12 @@ bool place(int nextI, int nextJ, int cnt) {
     int j = nextJ;
     for(int i = nextI; i <= H; i++) {
         for(; j <= N - 1; j++) {
-            if(j > 1 && ladder[i][j - 1][j]) continue;
-            if(j < N - 1 && ladder[i][j + 1][j + 2]) continue;
+            if(j > 1 && ladder[i][j - 1]) continue;
+            if(j < N - 1 && ladder[i][j + 1]) continue;
             
-            if(!ladder[i][j][j + 1]) {
-                ladder[i][j][j + 1] = true;
-                
+            if(!ladder[i][j]) {
+                ladder[i][j] = true;
+
                 bool isPossible = false;
                 if(j == N - 1) {
                     isPossible = place(i + 1, 1, cnt - 1);
@@ -41,7 +41,7 @@ bool place(int nextI, int nextJ, int cnt) {
                 }
                 if(isPossible) return true;
                 
-                ladder[i][j][j + 1] = false;
+                ladder[i][j] = false;
             }
         }
         j = 1;
@@ -52,7 +52,7 @@ bool place(int nextI, int nextJ, int cnt) {
 void initLadder() {
     for(int i = 1; i <= H; i++) {
         for(int j = 1; j <= N - 1; j++) {
-            ladder[i][j][j + 1] = origin[i][j][j + 1];
+            ladder[i][j] = origin[i][j];
         }
     }
 }
@@ -66,7 +66,7 @@ int main() {
     int a, b;
     for(int i = 0; i < M; i++) {
         cin >> a >> b;
-        origin[a][b][b + 1] = true;
+        origin[a][b] = true;
     }
 
     int result = -1;
