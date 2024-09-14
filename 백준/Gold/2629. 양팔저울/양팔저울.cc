@@ -10,9 +10,8 @@ int solve(int bw, int index) {
     if(dp[bw + 15000][index] != 0) return dp[bw + 15000][index];
     if(bw == 0) return 1;
     for(int i = index; i < W; i++) {
-        if(solve(bw - weight[i], i + 1) == 1) 
-            return dp[bw + 15000][index] = 1;
-        if(solve(bw + weight[i], i + 1) == 1)
+        if(solve(bw - weight[i], i + 1) == 1 || 
+           solve(bw + weight[i], i + 1) == 1) 
             return dp[bw + 15000][index] = 1;
     }
     return dp[bw + 15000][index] = -1;
