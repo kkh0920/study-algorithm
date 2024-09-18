@@ -1,15 +1,15 @@
 #include <iostream>
 using namespace std;
 
-int N, cost[16][16], minCost[16][16][1 << 16];
-int visited = 0, start;
+int N, cost[16][16], minCost[16][1 << 16];
+int visited = 0;
 
 int travel(int node) {
     if(visited == (1 << N) - 1) {
-        return cost[node][start] == 0 ? 1000000000 : cost[node][start];
+        return cost[node][0] == 0 ? 1000000000 : cost[node][0];
     }
-    if(minCost[start][node][visited] != 0) {
-        return minCost[start][node][visited];
+    if(minCost[node][visited] != 0) {
+        return minCost[node][visited];
     }
     
     int c = 1000000000;
@@ -20,7 +20,7 @@ int travel(int node) {
         visited -= (1 << i);
     }
 
-    return minCost[start][node][visited] = c;
+    return minCost[node][visited] = c;
 }
 
 int main() {
@@ -35,14 +35,8 @@ int main() {
         }
     }
 
-    int result = 1000000000;
-    for(int i = 0; i < N; i++) {
-        start = i;
-        visited = 1 << i;
-        result = min(result, travel(i));
-    }
-
-    cout << result << '\n';
+    visited = 1;
+    cout << travel(0) << '\n';
 
     return 0;
 }
