@@ -5,13 +5,13 @@ int N, cost[16][16], minCost[16][1 << 16];
 int visited = 0;
 
 int travel(int node) {
-    if(visited == (1 << N) - 1) {
-        return cost[node][0] == 0 ? 1000000000 : cost[node][0];
-    }
     if(minCost[node][visited] != 0) {
         return minCost[node][visited];
     }
-    
+    if(visited == (1 << N) - 1) {
+        return cost[node][0] == 0 ? 1000000000 : cost[node][0];
+    }
+  
     int c = 1000000000;
     for(int i = 0; i < N; i++) {
         if(cost[node][i] == 0 || visited & (1 << i)) continue;
