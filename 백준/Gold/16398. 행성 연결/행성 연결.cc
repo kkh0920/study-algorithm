@@ -25,13 +25,8 @@ long long kruskal() {
         if(root1 == root2) {
             continue;
         }
-
-        if(root1 < root2) {
-            parent[root2] = root1;
-        } else {
-            parent[root1] = root2;
-        }
-
+        
+        parent[root1] = root2;
         result += edges[i].first;
         count++;
     }
