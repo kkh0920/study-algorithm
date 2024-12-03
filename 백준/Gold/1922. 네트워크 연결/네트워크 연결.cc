@@ -24,12 +24,11 @@ int getMinCost() {
         int root1 = getRoot(node1);
         int root2 = getRoot(node2);
 
-        if(root1 == root2)
-            continue;
-        
-        root1 < root2 ? root[root2] = root1 : root[root1] = root2;
-        cnt++;
-        result += cost;
+        if(root1 != root2) {
+            root[root1] = root2;
+            result += cost;
+            cnt++;
+        }
     }
 
     return result;
