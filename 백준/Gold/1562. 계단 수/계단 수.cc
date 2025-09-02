@@ -3,7 +3,7 @@ using namespace std;
 
 const int MOD = 1e9;
 
-int N, dp[101][10][1 << 10];
+int N, dp[101][10][1 << 2];
 
 int solve(int n, int k, int bit) {
     if (k < 0 || k > 9) {
@@ -12,13 +12,13 @@ int solve(int n, int k, int bit) {
     if (dp[n][k][bit] != -1) {
         return dp[n][k][bit];
     }
-    if (n == 1 && bit == (1 << 10) - 1) {
+    if (n == 1 && bit == (1 << 2) - 1) {
         return dp[n][k][bit] = 1;
     }
 
     dp[n][k][bit] = (
-        solve(n - 1, k + 1, bit | (1 << (k + 1))) + 
-        solve(n - 1, k - 1, bit | (1 << (k - 1)))
+        solve(n - 1, k + 1, (k + 1 == 9) ? (bit | (1 << 1)) : bit) +
+        solve(n - 1, k - 1, (k - 1 == 0) ? (bit | (1 << 0)) : bit)
     ) % MOD;
     
     return dp[n][k][bit];
@@ -33,7 +33,7 @@ int main() {
 
     for (int i = 1; i <= N; i++) {
         for (int j = 0; j <= 9; j++) {
-            for (int k = 0; k < (1 << 10); k++) {
+            for (int k = 0; k < (1 << 2); k++) {
                 dp[i][j][k] = -1;
             }
         }
@@ -41,10 +41,12 @@ int main() {
 
     int result = 0;
     
-    for (int i = 1; i <= 9; i++) {
-        result += solve(N, i, 1 << i);
+    for (int i = 1; i <= 8; i++) {
+        result += solve(N, i, 0);
         result %= MOD;
     }
+    result += solve(N, 9, 1 << 1);
+    result %= MOD;
 
     cout << result << '\n';
 
