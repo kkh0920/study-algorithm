@@ -5,6 +5,25 @@ const int MOD = 1e9;
 
 int N, dp[101][10][1 << 10];
 
+int solve(int n, int k, int bit) {
+    if (k < 0 || k > 9) {
+        return 0;
+    }
+    if (dp[n][k][bit] != -1) {
+        return dp[n][k][bit];
+    }
+    if (n == 1 && bit == (1 << 10) - 1) {
+        return dp[n][k][bit] = 1;
+    }
+
+    dp[n][k][bit] = (
+        solve(n - 1, k + 1, bit | (1 << (k + 1))) + 
+        solve(n - 1, k - 1, bit | (1 << (k - 1)))
+    ) % MOD;
+    
+    return dp[n][k][bit];
+}
+
 int main() {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
@@ -12,28 +31,18 @@ int main() {
 
     cin >> N;
 
-    for (int i = 0; i <= 9; i++) {
-        dp[1][i][1 << i] = 1;
-    }
-
-    for (int i = 2; i <= N; i++) {
+    for (int i = 1; i <= N; i++) {
         for (int j = 0; j <= 9; j++) {
             for (int k = 0; k < (1 << 10); k++) {
-                if (j == 0) {
-                    dp[i][j][k | (1 << j)] += dp[i - 1][j + 1][k];
-                } else if (j == 9) {
-                    dp[i][j][k | (1 << j)] += dp[i - 1][j - 1][k];
-                } else {
-                    dp[i][j][k | (1 << j)] += dp[i - 1][j + 1][k] + dp[i - 1][j - 1][k];
-                }
-                dp[i][j][k | (1 << j)] %= MOD;
+                dp[i][j][k] = -1;
             }
         }
     }
 
     int result = 0;
+    
     for (int i = 1; i <= 9; i++) {
-        result += dp[N][i][(1 << 10) - 1];
+        result += solve(N, i, 1 << i);
         result %= MOD;
     }
 
