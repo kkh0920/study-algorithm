@@ -2,16 +2,16 @@
 #include <queue>
 using namespace std;
 
-long long N, result[10];
+int N, result[10];
 bool visited[10];
 vector<int> adj[10];
 
-long long gcd(long long a, long long b) {
+int gcd(int a, int b) {
     if (b == 0) return a;
     return gcd(b, a % b);
 }
 
-void multiply(int index, long long value) {
+void multiply(int index, int value) {
     visited[index] = true;
     result[index] *= value;
     for (auto next : adj[index]) {
@@ -33,7 +33,7 @@ int main() {
     for (int i = 0; i < N - 1; i++) {
         cin >> a >> b >> p >> q;
 
-        long long g = gcd(p, q);
+        int g = gcd(p, q);
         p /= g; 
         q /= g;
 
@@ -41,19 +41,19 @@ int main() {
             result[a] = p; 
             result[b] = q;
         } else if (result[a] == 0) {
-            long long gcd_val = gcd(result[b], q);
+            int gcd_val = gcd(result[b], q);
             result[a] = p * (result[b] / gcd_val);
             multiply(b, q / gcd_val);
         } else if (result[b] == 0) {
-            long long gcd_val = gcd(result[a], p);
+            int gcd_val = gcd(result[a], p);
             result[b] = q * (result[a] / gcd_val);
             multiply(a, p / gcd_val);
         } else {
-            long long gcd1 = gcd(result[a], p);
-            long long gcd2 = gcd(result[b], q);
+            int gcd1 = gcd(result[a], p);
+            int gcd2 = gcd(result[b], q);
 
-            long long val1 = (p / gcd1) * (result[b] / gcd2);
-            long long val2 = (q / gcd2) * (result[a] / gcd1);
+            int val1 = (p / gcd1) * (result[b] / gcd2);
+            int val2 = (q / gcd2) * (result[a] / gcd1);
 
             multiply(a, val1);
             multiply(b, val2);
